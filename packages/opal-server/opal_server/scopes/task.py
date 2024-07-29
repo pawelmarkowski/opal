@@ -7,7 +7,7 @@ from fastapi_websocket_pubsub import Topic
 from opal_common.logger import logger
 from opal_server.config import opal_server_config
 from opal_server.policy.watcher.task import BasePolicyWatcherTask
-from opal_server.redis_utils import RedisDB
+from opal_server.redis_utils import create_redis_instance
 from opal_server.scopes.scope_repository import ScopeRepository
 from opal_server.scopes.service import ScopesService
 
@@ -18,7 +18,7 @@ class ScopesPolicyWatcherTask(BasePolicyWatcherTask):
 
         self._service = ScopesService(
             base_dir=Path(opal_server_config.BASE_DIR),
-            scopes=ScopeRepository(RedisDB(opal_server_config.REDIS_URL,
+            scopes=ScopeRepository(create_redis_instance(opal_server_config.REDIS_URL,
                                     opal_server_config.REDIS_SENTINEL_HOSTS,
                                     opal_server_config.REDIS_SENTINEL_SERVICE_NAME)),
             pubsub_endpoint=self._pubsub_endpoint,
@@ -79,7 +79,7 @@ class ScopesPolicyWatcherTask(BasePolicyWatcherTask):
 
             service = ScopesService(
                 base_dir=Path(opal_server_config.BASE_DIR),
-                scopes=ScopeRepository(RedisDB(opal_server_config.REDIS_URL,
+                scopes=ScopeRepository(create_redis_instance(opal_server_config.REDIS_URL,
                                     opal_server_config.REDIS_SENTINEL_HOSTS,
                                     opal_server_config.REDIS_SENTINEL_SERVICE_NAME)),
                 pubsub_endpoint=None,

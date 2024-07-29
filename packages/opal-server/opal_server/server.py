@@ -32,7 +32,7 @@ from opal_server.policy.watcher.task import PolicyWatcherTask
 from opal_server.policy.webhook.api import init_git_webhook_router
 from opal_server.publisher import setup_broadcaster_keepalive_task
 from opal_server.pubsub import PubSub
-from opal_server.redis_utils import RedisDB
+from opal_server.redis_utils import create_redis_instance
 from opal_server.scopes.api import init_scope_router
 from opal_server.scopes.loader import load_scopes
 from opal_server.scopes.scope_repository import ScopeRepository
@@ -180,7 +180,7 @@ class OpalServer:
         self.leadership_lock: Optional[NamedLock] = None
 
         if opal_server_config.SCOPES:
-            self._redis_db = RedisDB(opal_server_config.REDIS_URL,
+            self._redis_db = create_redis_instance(opal_server_config.REDIS_URL,
                                      opal_server_config.REDIS_SENTINEL_HOSTS,
                                      opal_server_config.REDIS_SENTINEL_SERVICE_NAME)
             self._scopes = ScopeRepository(self._redis_db)
