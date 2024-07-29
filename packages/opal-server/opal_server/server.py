@@ -180,7 +180,9 @@ class OpalServer:
         self.leadership_lock: Optional[NamedLock] = None
 
         if opal_server_config.SCOPES:
-            self._redis_db = RedisDB(opal_server_config.REDIS_URL)
+            self._redis_db = RedisDB(opal_server_config.REDIS_URL,
+                                     opal_server_config.REDIS_SENTINEL_HOSTS,
+                                     opal_server_config.REDIS_SENTINEL_SERVICE_NAME)
             self._scopes = ScopeRepository(self._redis_db)
             logger.info("OPAL Scopes: server is connected to scopes repository")
 

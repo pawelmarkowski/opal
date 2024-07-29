@@ -18,7 +18,9 @@ class ScopesPolicyWatcherTask(BasePolicyWatcherTask):
 
         self._service = ScopesService(
             base_dir=Path(opal_server_config.BASE_DIR),
-            scopes=ScopeRepository(RedisDB(opal_server_config.REDIS_URL)),
+            scopes=ScopeRepository(RedisDB(opal_server_config.REDIS_URL,
+                                    opal_server_config.REDIS_SENTINEL_HOSTS,
+                                    opal_server_config.REDIS_SENTINEL_SERVICE_NAME)),
             pubsub_endpoint=self._pubsub_endpoint,
         )
 
@@ -77,7 +79,9 @@ class ScopesPolicyWatcherTask(BasePolicyWatcherTask):
 
             service = ScopesService(
                 base_dir=Path(opal_server_config.BASE_DIR),
-                scopes=ScopeRepository(RedisDB(opal_server_config.REDIS_URL)),
+                scopes=ScopeRepository(RedisDB(opal_server_config.REDIS_URL,
+                                    opal_server_config.REDIS_SENTINEL_HOSTS,
+                                    opal_server_config.REDIS_SENTINEL_SERVICE_NAME)),
                 pubsub_endpoint=None,
             )
             asyncio.run(service.sync_scopes(notify_on_changes=False))

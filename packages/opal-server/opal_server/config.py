@@ -302,6 +302,8 @@ class OpalServerConfig(Confi):
     )
 
     REDIS_URL = confi.str("REDIS_URL", default="redis://localhost")
+    REDIS_SENTINEL_HOSTS = confi.list("REDIS_SENTINEL_HOSTS", [])
+    REDIS_SENTINEL_SERVICE_NAME = confi.str("REDIS_SENTINEL_SERVICE_NAME", default="")
 
     BASE_DIR = confi.str("BASE_DIR", default=pathlib.Path.home() / ".local/state/opal")
 
