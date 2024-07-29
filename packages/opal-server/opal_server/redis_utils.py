@@ -1,4 +1,4 @@
-from typing import AsyncGenerator, Generator, Optional
+from typing import Generator, Optional
 
 import redis.asyncio as redis
 from redis.asyncio.sentinel import Sentinel
@@ -52,7 +52,7 @@ class RedisDBSentinel:
     async def get(self, key: str) -> bytes:
         return await self._redis_slave.get(key)
 
-    async def scan(self, pattern: str) -> AsyncGenerator[bytes, None, None]:
+    async def scan(self, pattern: str) -> Generator[bytes, None, None]:
         cur = b"0"
         while cur:
             cur, keys = await self._redis_slave.scan(cur, match=pattern)
@@ -95,7 +95,7 @@ class RedisDBUrl:
     async def get(self, key: str) -> bytes:
         return await self._redis.get(key)
 
-    async def scan(self, pattern: str) -> AsyncGenerator[bytes, None, None]:
+    async def scan(self, pattern: str) -> Generator[bytes, None, None]:
         cur = b"0"
         while cur:
             cur, keys = await self._redis.scan(cur, match=pattern)
